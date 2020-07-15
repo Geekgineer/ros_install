@@ -1,0 +1,23 @@
+#!/bin/bash
+# http://wiki.ros.org/Robots/TurtleBot/Network%20Setup
+
+# robothostname: OS host name on the robot computing board
+# localhostname: OS host name on personal computer/workstation 
+# the master hostname could be the robothostname or localhostname
+# the slave hostname could be the robothostname or localhostname
+
+
+echo "$HOSTNAME"
+
+masterhostname= $HOSTNAME
+
+sudo apt install chrony
+sudo apt-get install openssh-client openssh-server
+sudo ssh service states
+sudo ssh service restart
+sudo systemctl start ssh
+
+echo "export ROS_HOSTNAME=${masterhostname}.local" >> ~/.bashrc
+echo "export ROS_MASTER_URI=http://${masterhostname}.local:11311" >> ~/.bashrc
+
+echo "Network setup done"
